@@ -35,8 +35,8 @@ try {
                 String firstName = result.getString(3);
                 String lastName = result.getString(4);
                 String password = result.getString(5);
-                int role_id = result.getInt(5);   
-                String role_name = result.getString(6); 
+                int role_id = result.getInt(6);   
+                String role_name = result.getString(7); 
                 Role role = new Role(role_id, role_name);
                 User user = new User(email,active, firstName, lastName, password, role);
                 users.add(user);
@@ -103,16 +103,16 @@ public void update(User user) throws Exception{
         Connection con = cp.getConnection();
         PreparedStatement ps = null;
         
-        String sql = "update user set first_name =?  active =?, last_name = ? , role =? where email = ?";
+        String sql = "update user set first_name =?  ,active =?, last_name = ? ,password =? , role =? where email = ?";
          try{
             ps = con.prepareStatement(sql);
              
             ps.setString(1,user.getFirstName());
             ps.setBoolean(2,user.isActive());
             ps.setString(3,user.getLastName());
-            
-            ps.setInt(3, user.getRole().getRoleId());
-            ps.setString(4,user.getEmail());            
+              ps.setString(4,user.getPassword());
+            ps.setInt(5, user.getRole().getRoleId());
+            ps.setString(6,user.getEmail());            
             ps.executeUpdate(); 
 } finally {
              DBUtil.closePreparedStatement(ps);

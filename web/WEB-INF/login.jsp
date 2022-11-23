@@ -18,7 +18,7 @@
         <form method="post" action="home">
             Username:<input type="text" name="email" value=${name} ><br>
             Password:<input type="password" name="password" value=${password}><br>
-            <a href="<c:url value='home?action=create' />">Create an account </a>
+            <a href="<c:url value='login?action=create' />">Create an account </a>
 <!--            <a href="home?create">Create an account</a>-->
 
             <p>${msg}</p> 

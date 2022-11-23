@@ -2,6 +2,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -10,7 +11,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import models.Role;
 import models.User;
+import services.RoleService;
 import services.UserService;
 
 /**
@@ -39,16 +42,30 @@ public class homeServlet extends HttpServlet {
         String email = request.getParameter("email");
          session.setAttribute("email", email);
         String password = request.getParameter("password");
+        RoleService user_role = new RoleService();
+//        List<User> users = null;
+         List <Role> roles = null; 
+//         int id = 0;
         try{
-         user = user_service.getUser(email);   
+         user = user_service.getUser(email); 
+          roles = user_role.getAll(); 
         } catch (Exception ex) {
                 Logger.getLogger(loginServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
         if (user!= null && user.getPassword().equals(password)){
+           
+           session.setAttribute("roles", roles);
+             int userRole = user.getRole().getRoleId();
+             if (userRole == 1){
+                getServletContext().getRequestDispatcher("/WEB-INF/admin.jsp")
+                .forward(request, response);
+                 return; 
+
+             }
         
         getServletContext().getRequestDispatcher("/WEB-INF/home.jsp")
                 .forward(request, response);
-        return;
+    
     }
         else{
             String msg = "Wrong password or user name"; 

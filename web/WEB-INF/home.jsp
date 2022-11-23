@@ -14,7 +14,8 @@
     </head>
     <body>
          <h1>Home Page</h1>
-        <h4> user created </h4>
+        <h4>Hello ${msg} </h4>
+        
          <a href="login">Log out</a>
     </body>
 </html>

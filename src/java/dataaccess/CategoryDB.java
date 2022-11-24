@@ -23,7 +23,7 @@ public class CategoryDB {
         Connection con = cp.getConnection();
         PreparedStatement ps = null;
         ResultSet result = null;
-        String sql = "SELECT category_id,category_name from role ";
+        String sql = "SELECT category_id,category_name from Category ";
         try {
             ps = con.prepareStatement(sql);
             result = ps.executeQuery();
@@ -66,15 +66,15 @@ public class CategoryDB {
         } 
         return category; 
 }
-  public void insert(Category category) throws Exception{
+  public void insert(String category) throws Exception{
         ConnectionPool cp = ConnectionPool.getInstance();
         Connection con = cp.getConnection();
         PreparedStatement ps = null;
-        String sql = "Insert into category (category_id, category_name) values (?, ?)";
+        String sql = "Insert into category (category_name) values ( ?)";
         try{
             ps = con.prepareStatement(sql); 
-            ps.setInt(1,category.getCategoryId());
-            ps.setString(2,category.getCategoryName());
+//            ps.setInt(1,category.getCategoryId());
+            ps.setString(1,category);
             ps.executeUpdate(); 
         }finally {
              DBUtil.closePreparedStatement(ps);

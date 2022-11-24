@@ -10,23 +10,24 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Admin Page</title>
     </head>
     <body>
          <!--if action ==create ==> email like msg--> 
         <h1>Hello ${email}</h1>
-        <a href="login">Log out</a>
+        <a href="login">Log out</a><br>
          <form action="admin" method="post">
              <input type="hidden" name="action" value="view" >
-                <input type="submit" value="view"> 
+                <input type="submit" value="view all users"> 
         </form>
          <form action="admin" method="get">
              <input type="hidden" name="action" value="create" >
                 <input type="submit" value="Create user account"> 
         </form>
-          <form action="admin" method="post">
-                     <input type="hidden" name="action" value="delete" >
-                <input type="submit" value="Delete"> 
+         
+        <form action="admin" method="post">
+                     <input type="hidden" name="action" value="viewAllCategory" >
+                <input type="submit" value="Categories"> 
                  </form>
         <c:choose>
             <c:when test="${action == 'view'}">
@@ -77,6 +78,10 @@
                 </c:forEach>   
             </table> 
         </form>
+                 <form action="admin" method="post">
+                     <input type="hidden" name="action" value="delete" >
+                <input type="submit" value="Delete"> 
+                 </form>
             </c:when>
             <c:when test="${action == 'create'}">
                  <h2>Create your account</h2>
@@ -144,11 +149,102 @@
                                      
                     </select><br>
                 <input type="hidden" name="action" value="edit" >
-                <input type="submit" value="update"> 
+                <input type="submit" value="update">
+                
+                
 
-            </form>
+            </form >
+                <form action="admin" method="post">
+                     <input type="hidden" name="action" value="ViewItem" >
+                     <input type="hidden" name="email" value="${selectedUser.email}">
+                <input type="submit" value="View user items"> 
+                 </form>
                  </c:when>
+            <c:when test="${action == 'ViewItem'}">
+                <form action="admin" method="post">
+            <table border ="1">
+                <tr>
+                    <th>Item name</th>
+                    <th>category name</th>
+                    <th>price</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                <c:forEach items="${items}" var="item">
 
+                    <tr>
+                        <td>${item.getItemName()}</td>
+                        <td>${item.getCategory().getCategoryName()}</td>
+                        <td>${item.getPrice()}</td>
+                                
+                        <td> <a href="<c:url value="admin?action=editItem">
+                                    <c:param name="action" value="edit item"/>
+                                    <c:param name="itemSelected" value="${item.getItemId()}"/>
+                                    </c:url>"> Edit item </a> </td>
+                        <td> <a href="<c:url value='admin?action=delete&amp;itemId=${item.getItemId()}' />">Delete item </a> </td>
+                    </tr>
+
+                </c:forEach>   
+            </table> 
+        </form>
+<!--                 <form  action="" method = "post">
+             
+               Item Name: <input type="test" name="ItemName" value={selectedItem.getItemName()}><br>
+               Item price: <input type="number" name="itemPrice"><br>
+check if it is empty or not 
+                <br>
+                <input type="hidden" name="action" value="edit" >
+                <input type="submit" value="update">
+                
+                
+
+            </form >-->
+                  <form action="admin" method="post">
+                     <input type="hidden" name="action" value="deleteItem" >
+                <input type="submit" value="Delete"> 
+                 </form>
+            </c:when>
+           
+            
+             <c:when test="${action == 'viewAllCategory'}">
+                <form action="admin" method="post">
+            <table border ="1">
+                <tr>
+                   
+                    <th>category name</th>
+                    <th></th>
+                    
+                </tr>
+                <c:forEach items="${categories}" var="category">
+
+                    <tr>
+                        <td>${category.getCategoryName()}</td>        
+                        <td> <a href="<c:url value="admin?action=editCategory">
+                                      <c:param name="CategoryId" value="${category.getCategoryId()}"/>
+                                    <c:param name="categorySelected" value="${category.getCategoryName()}"/>
+                                    </c:url>"> Edit Category </a> </td>
+    
+                    </tr>
+
+                </c:forEach>   
+            </table> 
+        </form>
+            </c:when>
+                       <c:when test="${action == 'editCategory'}">
+                           <h2>Edit Category</h2>
+            <form  action="" method = "post">
+             
+               Category Name: <input type="text" name="categoryName" value=${selectedCategory.getCategoryId()}><br>
+               Add new Name: <input type="text" name="newCategory"><br><!--
+check if it is empty or not -->
+                <br>
+                <input type="hidden" name="action" value="edit" >
+                <input type="submit" value="update">
+                
+                
+
+            </form >
+                       </c:when>
         </c:choose> 
     </body>
 </html>

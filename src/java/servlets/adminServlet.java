@@ -11,8 +11,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import models.Category;
+import models.Item;
 import models.Role;
 import models.User;
+import services.CategoryService;
+import services.ItemService;
 import services.RoleService;
 import services.UserService;
 
@@ -32,6 +36,8 @@ public class adminServlet extends HttpServlet {
          String action = request.getParameter("action");
          request.setAttribute("action",action);
           UserService user_service = new UserService();
+          ItemService item_service = new ItemService(); 
+          CategoryService category_service = new CategoryService();
 
 //         if (action.equals("create")){
 //             getServletContext().getRequestDispatcher("/WEB-INF/admin.jsp").forward(request, response); 
@@ -51,15 +57,39 @@ public class adminServlet extends HttpServlet {
           
            
 }
+        if ( action.equals("editCategory")) {
+            try {
+                String CategoryId = request.getParameter("CategoryId");
+                 request.setAttribute("CategoryId", CategoryId);
+                Category category = category_service.getCategory(Integer.parseInt(CategoryId));
+                request.setAttribute("category", category);
+                 
+                     
+                
+            } catch (Exception ex) {
+                Logger.getLogger(adminServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+          
+           
+}
          else if (action.equals("delete")) {
             try {
                 String email = request.getParameter("userEmail");
                 request.setAttribute("email", email);
+                user_service.deleteItemsUser(email);
                   user_service.delete(email);
+
+            } catch (Exception ex) {
+                Logger.getLogger(adminServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+         else if (action.equals("deleteItem")) {
+            try {
+                String itemId = request.getParameter("itemId");
+                
+                request.setAttribute("itemId", itemId);
+                  item_service.delete(Integer.parseInt(itemId));
                  
-                     
-
-
             } catch (Exception ex) {
                 Logger.getLogger(adminServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -72,6 +102,8 @@ public class adminServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
           HttpSession session = request.getSession();
+          ItemService item_service = new ItemService(); 
+          CategoryService category_service = new CategoryService();
             UserService user_service = new UserService();
              String email = request.getParameter("email");
              request.setAttribute("email", email);
@@ -83,6 +115,11 @@ public class adminServlet extends HttpServlet {
               request.setAttribute("status", status);
               String password = request.getParameter("password"); 
               request.setAttribute("password", password);
+               String UserEditEmail = request.getParameter("userEmail");
+                request.setAttribute("UserEditEmail", UserEditEmail);
+                  boolean newUserStatus = false;
+                  User userUpdated = null ;
+                 
                int id = 0;
           String msg = ""; 
           User newUser = null; 
@@ -93,7 +130,9 @@ public class adminServlet extends HttpServlet {
         RoleService user_role = new RoleService();
          List<User> users = null;
          List <Role> roles = null;
-          boolean newUserStatus = false; 
+         List <Item>items = null; 
+         List <Category> categories = null; 
+         
               String role = request.getParameter("role");
               request.setAttribute("role", role);
               if (role != null){
@@ -148,9 +187,8 @@ public class adminServlet extends HttpServlet {
     }
           if (action != null && action.equals("edit")) {
             try {
-                String UserEditEmail = request.getParameter("userEmail");
-                request.setAttribute("UserEditEmail", UserEditEmail);
-                User userUpdated = new User(UserEditEmail,newUserStatus ,firstName,lastName,password, newRole );
+               
+               userUpdated = new User(UserEditEmail,newUserStatus ,firstName,lastName,password, newRole );
                 request.setAttribute("userUpdated", userUpdated);
                  user_service.update(userUpdated);
 //                 response.sendRedirect("/");
@@ -162,6 +200,59 @@ public class adminServlet extends HttpServlet {
 
      getServletContext().getRequestDispatcher("/WEB-INF/admin.jsp").forward(request, response);
 }
+          if (action!= null && action.equals("viewAllCategory")){
+            
+              
+              try { 
+                  
+                 categories = category_service.getAll();
+                  
+                   session.setAttribute("categories", categories);
+              } catch (Exception ex) {
+                  Logger.getLogger(adminServlet.class.getName()).log(Level.SEVERE, null, ex);
+              }
+          }
+              if (action!= null && action.equals("editCategory")){
+                  String CategoryId = request.getParameter("CategoryId"); 
+                     String newCategory =   request.getParameter("newCategory");
+                     String  categoryName = request.getParameter("categoryName");
+                     request.setAttribute("newCategory", newCategory);
+                     request.setAttribute("categoryName", categoryName);
+                     request.setAttribute("CategoryId", CategoryId);
+                     Category updatedCategory = new Category(Integer.parseInt(CategoryId),categoryName);
+              
+              try { 
+                  category_service.insert(newCategory);
+                   category_service.update(updatedCategory);
+              } catch (Exception ex) {
+                  Logger.getLogger(adminServlet.class.getName()).log(Level.SEVERE, null, ex);
+              }
+          }
+          if (action!= null && action.equals("ViewItem")){
+            
+              
+              try { 
+                  
+                    userUpdated =   user_service.getUser(email);
+                  items = user_service.getAllItem(userUpdated);
+                   session.setAttribute("items", items);
+              } catch (Exception ex) {
+                  Logger.getLogger(adminServlet.class.getName()).log(Level.SEVERE, null, ex);
+              }
+          }
+                   //   edit item
+//            if (action!= null && action.equals("editItem")){
+//            
+//              
+//              try { 
+//                  Item itemUpdated = new Item ()
+//                    Item itemUpdated = item_service.getItem("itemSelected");
+//                  items = user_service.getAllItem(userUpdated);
+//                   session.setAttribute("items", items);
+//              } catch (Exception ex) {
+//                  Logger.getLogger(adminServlet.class.getName()).log(Level.SEVERE, null, ex);
+//              }
+//          }
             getServletContext().getRequestDispatcher("/WEB-INF/admin.jsp").forward(request, response);
 }
 }

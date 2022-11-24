@@ -19,7 +19,7 @@ public class CategoryService {
            Category category = categoryDB.getCategory(id);
            return category;
      }
-     public void insert(Category category) throws Exception{
+     public void insert(String category) throws Exception{
          CategoryDB categoryDB = new CategoryDB();
          categoryDB.insert(category);
      }

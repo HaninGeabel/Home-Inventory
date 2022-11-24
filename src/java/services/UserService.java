@@ -3,6 +3,7 @@ package services;
 
 import dataaccess.UserDB;
 import java.util.List;
+import models.Item;
 import models.User;
 
 /**
@@ -39,4 +40,14 @@ public class UserService {
        userDB.delete(user);
         
     }
+        public List<Item> getAllItem(User user) throws Exception {
+        UserDB userDB = new UserDB(); 
+        List<Item> items = userDB.getAllItem(user); 
+        return items; 
+        
+    } 
+        public void deleteItemsUser(String email) throws Exception {
+            UserDB userDB = new UserDB(); 
+            userDB.deleteItemsUser(email);
+        }
 }

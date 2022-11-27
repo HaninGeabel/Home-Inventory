@@ -21,90 +21,86 @@
              <input type="hidden" name="action" value="back" >
                 <input type="submit" value="Back to home page"> 
                         </form>
-                <c:choose>
-                        <c:when test="${items.size()<= 0}">
+        <c:choose>
+            <c:when test="${items.size()<= 0}">
                                  <form action="home" method="get">
-             <input type="hidden" name="action" value="AddItem" >
-                <input type="submit" value="Add item"> 
-        </form>
-                        </c:when>
-                    <c:otherwise>
+                                        <input type="hidden" name="action" value="AddItem" >
+                                        <input type="submit" value="Add item"> 
+                                 </form>
+            </c:when>
+                   
         
           
-         <c:choose>
+         
              
-          <c:when test="${action == 'viewAllItems'}">
+            <c:when test="${action == 'viewAllItems'}">
+                
                 <form action="admin" method="post">
                     
-                   
-                    
-            <table border ="1">
-                <tr>
-                    <th>Item name</th>
-                    <th>category name</th>
-                    <th>price</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-                <c:forEach items="${items}" var="thing" >
+                                <table border ="1">
+                                            <tr>
+                                                <th>Item name</th>
+                                                <th>category name</th>
+                                                <th>price</th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                            </tr>
+                                                    <c:forEach items="${items}" var="thing" >
 
-                    <tr>
-                        <td>${thing.getItemName()}</td>
-                        <td>${thing.getCategory().getCategoryName()}</td>
-                        <td>${thing.getPrice()}</td>
-                        <td>   <a href="<c:url value="home?action=editItem">
-                                    <c:param name="action" value="editItem"/>
-                                    <c:param name="SelectedId" value="${thing.getItemId()}"/>
-                                    </c:url>"> Edit </a></td>
-                       
-                        <td> <a href="<c:url value='home?action=deleteItem&amp;SelectedId=${thing.getItemId()}' />">Delete item </a> </td>
-                    </tr>
+                                                            <tr>
+                                                                <td>${thing.getItemName()}</td>
+                                                                <td>${thing.getCategory().getCategoryName()}</td>
+                                                                <td>${thing.getPrice()}</td>
+                                                                <td>${thing.getItemId()}</td>
+                                                                <td>   <a href="<c:url value="home?action=editItem">
+                                                                            <c:param name="action" value="editItem"/>
+                                                                            <c:param name="SelectedId" value="${thing.getItemId()}"/>
+                                                                            </c:url>"> Edit </a></td>
 
-                </c:forEach>   
-            </table> 
-        </form>
-                <c:choose>
-          <c:when test="${action == 'viewAllItems'}">
-                    <form action="home" method="get">
-             <input type="hidden" name="action" value="AddItem" >
-                <input type="submit" value="Add item"> 
-        </form>
-              </c:when>
-          </c:choose>
-          </c:when>
-                </c:choose>
-          
-        <c:choose>
-              <c:when test="${action == 'editItem'}">
-                                  <h2>Edit item</h2>
-            <form  action="" method = "post">
-                ${itemName}
-                Item Name: <input type="test" name="itemName" value=${item.itemName}><br>
-                Category:  <select name="category">
-                         
-                    <option >${item.getCategory().getCategoryName()}</option>
+                                                                <td> <a href="<c:url value='home?action=deleteItem&amp;SelectedId=${thing.getItemId()}' />">Delete item </a> </td>
+                                                            </tr>
 
-                                        <c:forEach var="category" items="${Categories}" >
-                                    <c:if test="${itemName ne category.getCategoryName()}">
-                                        <option>${category.getCategoryName()}</option>
-                                    </c:if>
-                              
-                            </c:forEach>
-                         </select>
-                Price: <input type="text" name="price" value=${item.getPrice()}><br>
-               
-                <input type="hidden" name="action" value="updateItem" >
-                  
-                <input type="submit" value="update">
-                
-                
+                                                    </c:forEach>   
+                                </table> 
+                </form>
+                <form action="home" method="get">
+                            <input type="hidden" name="action" value="AddItem" >
+                            <input type="submit" value="Add item"> 
+                </form>
+            </c:when>   
+            
+        
+            <c:when test="${action == 'editItem'}">
+                                                                 <h2>Edit item</h2>
+                                                    <form  action="" method = "post">
+                                                        ${itemName}
+                                                        Item Name: <input type="test" name="itemName" value=${item.itemName}><br>
+                                                        Category:  <select name="category">
 
-            </form >
+                                                            <option >${item.getCategory().getCategoryName()}</option>
+
+                                                                                <c:forEach var="category" items="${Categories}" >
+                                                                            <c:if test="${itemName ne category.getCategoryName()}">
+                                                                                <option>${category.getCategoryName()}</option>
+                                                                            </c:if>
+
+                                                                    </c:forEach>
+                                                                 </select>
+                                                        Price: <input type="text" name="price" value=${item.getPrice()}><br>
+
+                                                        <input type="hidden" name="action" value="updateItem" >
+
+                                                        <input type="submit" value="update">
+
+
+
+                                                    </form >
                
                  </c:when>
              
-          </c:choose>
-            <c:choose>
+          
+            
                 <c:when test="${action == 'AddItem'}">
                      <form  action="" method = "post">
                 ${itemName}
@@ -117,7 +113,7 @@
                          </select>
                 Price: <input type="text" name="newPrice" ><br>
                
-                <input type="hidden" name="action" value="addItem" >
+                <input type="hidden" name="action" value="add" >
                   
                 <input type="submit" value="Add">
                 
@@ -126,9 +122,9 @@
             </form >
                
                 </c:when>
-            </c:choose>
-            </c:otherwise>
-             </c:choose>
+            
+           
+                </c:choose>
           
     </body>
 </html>

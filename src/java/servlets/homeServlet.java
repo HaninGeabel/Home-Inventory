@@ -73,7 +73,7 @@ if (action != null  && action.equals("viewAllItems")){
        
         if (action != null && action.equals("editItem")){
             String itemSelected = request.getParameter("SelectedId");
-             request.setAttribute("itemSelected", itemSelected);
+             session.setAttribute("itemSelected", itemSelected);
                      try {
                           Categories = category_service.getAll(); 
                           request.setAttribute("Categories", Categories);
@@ -93,7 +93,7 @@ if (action != null  && action.equals("viewAllItems")){
         }
            else if (action != null && action.equals("deleteItem")) {
             try {
-                String itemId = request.getParameter("itemId");
+                String itemId = request.getParameter("SelectedId");
                 
                 request.setAttribute("itemId", itemId);
                   item_service.delete(Integer.parseInt(itemId));
@@ -194,7 +194,8 @@ if(action.equals("back")){
    if (action.equals("editItem")){
                 User user = new User(email,newStatus ,firstName,lastName,password, newRole );
                     session.setAttribute("user", user);
-                     String itemId = request.getParameter("itemSelected"); 
+                    String itemId = (String)session.getAttribute("itemSelected");
+//                     String itemId = request.getParameter("itemSelected"); 
                      String categoryName =   request.getParameter("category");
                      String  itemName = request.getParameter("itemName");
                      request.setAttribute("categoryName", categoryName);
@@ -210,7 +211,7 @@ if(action.equals("back")){
               try { 
                   Category  category = category_service.getCategory(categoryName); 
                  request.setAttribute("category", category);
-                item = new Item (category,itemName,priceD,user); 
+                item = new Item (itemInt,category,itemName,priceD,user); 
                  item_service.update(item);
                   
               } catch (Exception ex) {
@@ -235,11 +236,13 @@ return;
       }
       
             try { 
+                int id = 0; 
                          User user = new User(email,newStatus ,firstName,lastName,password, newRole );
          session.setAttribute("user", user);
                 Category category = category_service.getCategory(newCategory);
                  request.setAttribute("category", category);
-                 item = new Item (category,newItemName,priceD,user); 
+                 request.setAttribute("id", id);
+                 item = new Item (id,category,newItemName,priceD,user); 
                  request.setAttribute("item", item);
                  item_service.insert(item);
             } catch (Exception ex) {

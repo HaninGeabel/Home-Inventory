@@ -156,7 +156,7 @@ public List<Item> getAllItem(User user)throws Exception {
                 double price = result.getDouble(6);
 
                 Category category = new Category(categoryId,categoryName); 
-                Item item = new Item(category, itemName, price, user);
+                Item item = new Item(id,category, itemName, price, user);
                 items.add(item);
             }
         } finally {

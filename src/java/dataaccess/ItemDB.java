@@ -41,7 +41,7 @@ try {
                 
                Category category = categorydb.getCategory(id);
                 User user = userdb.getUser(owner);
-                Item item = new Item(category, item_name, price, user);
+                Item item = new Item(id, category, item_name, price, user);
                 items.add(item);
             }
         } finally {
@@ -72,7 +72,7 @@ try {
                 String owner = result.getString(5);
                Category category = categorydb.getCategory(id);
                 User user = userdb.getUser(owner);
-                item = new Item(category, item_name, price, user);   
+                item = new Item(id,category, item_name, price, user);   
         }
      } 
         finally {

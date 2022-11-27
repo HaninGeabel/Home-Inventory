@@ -74,14 +74,18 @@ if (action != null  && action.equals("viewAllItems")){
         if (action != null && action.equals("editItem")){
             String itemSelected = request.getParameter("SelectedId");
              session.setAttribute("itemSelected", itemSelected);
+             String categorySelected = request.getParameter("SelectedCategoryid");
+             session.setAttribute("categorySelected", categorySelected);
+             
                      try {
                           Categories = category_service.getAll(); 
                           request.setAttribute("Categories", Categories);
                          Item item = item_service.getItem(Integer.parseInt(itemSelected));
                          request.setAttribute("item", item);
                          String itemName = item.getItemName(); 
-//                         Double price = item.getPrice(); 
-                         
+                        Category category = category_service.getCategory(Integer.parseInt(categorySelected));
+                        String categoryName = category.getCategoryName(); 
+                         request.setAttribute("categoryName", categoryName);
                           request.setAttribute("itemName", itemName);
                           getServletContext().getRequestDispatcher("/WEB-INF/inventory.jsp")
                 .forward(request, response);

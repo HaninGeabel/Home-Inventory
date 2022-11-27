@@ -31,7 +31,7 @@
         </form>
           <form action="home" method="post">
              <input type="hidden" name="action" value="editAccount" >
-                <input type="submit" value="edit account"> 
+                <input type="submit" value="Edit account"> 
         </form>
           
          

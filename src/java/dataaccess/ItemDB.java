@@ -70,7 +70,7 @@ try {
                 double  price = result.getDouble(4);
                 String password = result.getString(5);
                 String owner = result.getString(5);
-               Category category = categorydb.getCategory(id);
+               Category category = categorydb.getCategory(categoryid);
                 User user = userdb.getUser(owner);
                 item = new Item(id,category, item_name, price, user);   
         }

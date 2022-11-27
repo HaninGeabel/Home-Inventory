@@ -44,7 +44,7 @@
                                                 <th>price</th>
                                                 <th></th>
                                                 <th></th>
-                                                <th></th>
+                                                
                                             </tr>
                                                     <c:forEach items="${items}" var="thing" >
 
@@ -52,9 +52,10 @@
                                                                 <td>${thing.getItemName()}</td>
                                                                 <td>${thing.getCategory().getCategoryName()}</td>
                                                                 <td>${thing.getPrice()}</td>
-                                                                <td>${thing.getItemId()}</td>
+                                                                
                                                                 <td>   <a href="<c:url value="home?action=editItem">
                                                                             <c:param name="action" value="editItem"/>
+                                                                            <c:param name="SelectedCategoryid" value="${thing.getCategory().getCategoryId()}"/>
                                                                             <c:param name="SelectedId" value="${thing.getItemId()}"/>
                                                                             </c:url>"> Edit </a></td>
 
@@ -78,10 +79,10 @@
                                                         Item Name: <input type="test" name="itemName" value=${item.itemName}><br>
                                                         Category:  <select name="category">
 
-                                                            <option >${item.getCategory().getCategoryName()}</option>
-
+                                                            <option >${categoryName}</option>
+                                                                                  
                                                                                 <c:forEach var="category" items="${Categories}" >
-                                                                            <c:if test="${itemName ne category.getCategoryName()}">
+                                                                            <c:if test="${categoryName ne category.getCategoryName()}">
                                                                                 <option>${category.getCategoryName()}</option>
                                                                             </c:if>
 
@@ -91,7 +92,7 @@
 
                                                         <input type="hidden" name="action" value="updateItem" >
 
-                                                        <input type="submit" value="update">
+                                                        <input type="submit" value="Update">
 
 
 

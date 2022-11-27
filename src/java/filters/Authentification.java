@@ -32,14 +32,14 @@ public class Authentification implements Filter {
 
             // code that is executed before the servlet
             HttpServletRequest httpRequest = (HttpServletRequest)request;
-//            HttpSession session = httpRequest.getSession();
-//            String email = (String)session.getAttribute("email");
-//            
-//            if (email == null) {
-//                HttpServletResponse httpResponse = (HttpServletResponse)response;
-//                httpResponse.sendRedirect("login");
-//                return;
-//            }
+            HttpSession session = httpRequest.getSession();
+            String email = (String)session.getAttribute("email");
+            
+            if (email == null) {
+                HttpServletResponse httpResponse = (HttpServletResponse)response;
+                httpResponse.sendRedirect("login");
+                return;
+            }
             
             chain.doFilter(request, response); // execute the servlet
             

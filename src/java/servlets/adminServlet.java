@@ -42,7 +42,7 @@ public class adminServlet extends HttpServlet {
 //         if (action.equals("create")){
 //             getServletContext().getRequestDispatcher("/WEB-INF/admin.jsp").forward(request, response); 
 //         }
-         if ( action.equals("edit")) {
+         if (action != null && action.equals("edit")) {
             try {
                 String email = request.getParameter("userEmail");
                  request.setAttribute("email", email);
@@ -57,7 +57,7 @@ public class adminServlet extends HttpServlet {
           
            
 }
-        if ( action.equals("editCategory")) {
+        if ( action != null &&  action.equals("editCategory")) {
             try {
                 String CategoryId = request.getParameter("CategoryId");
                  request.setAttribute("CategoryId", CategoryId);
@@ -72,7 +72,11 @@ public class adminServlet extends HttpServlet {
           
            
 }
-         else if (action.equals("delete")) {
+        else if (action != null &&  action.equals("AddCategory")){
+             String category = request.getParameter("selectedId");
+             
+        }
+         else if (action != null &&  action.equals("delete")) {
             try {
                 String email = request.getParameter("userEmail");
                 request.setAttribute("email", email);
@@ -83,7 +87,7 @@ public class adminServlet extends HttpServlet {
                 Logger.getLogger(adminServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-         else if (action.equals("deleteItem")) {
+         else if (action != null &&  action.equals("deleteItem")) {
             try {
                 String itemId = request.getParameter("itemId");
                 
@@ -191,8 +195,7 @@ public class adminServlet extends HttpServlet {
                userUpdated = new User(UserEditEmail,newUserStatus ,firstName,lastName,password, newRole );
                 request.setAttribute("userUpdated", userUpdated);
                  user_service.update(userUpdated);
-//                 response.sendRedirect("/");
-//                 return; 
+
 
             } catch (Exception ex) {
                 Logger.getLogger(adminServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -214,20 +217,29 @@ public class adminServlet extends HttpServlet {
           }
               if (action!= null && action.equals("editCategory")){
                   String CategoryId = request.getParameter("CategoryId"); 
-                     String newCategory =   request.getParameter("newCategory");
+                    
                      String  categoryName = request.getParameter("categoryName");
-                     request.setAttribute("newCategory", newCategory);
+                     
                      request.setAttribute("categoryName", categoryName);
                      request.setAttribute("CategoryId", CategoryId);
                      Category updatedCategory = new Category(Integer.parseInt(CategoryId),categoryName);
               
               try { 
-                  category_service.insert(newCategory);
+                
                    category_service.update(updatedCategory);
               } catch (Exception ex) {
                   Logger.getLogger(adminServlet.class.getName()).log(Level.SEVERE, null, ex);
               }
           }
+              if (action != null && action.equals("AddCategory")){
+                 String newCategory =   request.getParameter("newCategory");  
+                 request.setAttribute("newCategory", newCategory);
+              try {
+                  category_service.insert(newCategory);
+              } catch (Exception ex) {
+                  Logger.getLogger(adminServlet.class.getName()).log(Level.SEVERE, null, ex);
+              }
+              }
           if (action!= null && action.equals("ViewItem")){
             
               

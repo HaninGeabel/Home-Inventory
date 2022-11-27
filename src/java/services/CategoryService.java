@@ -27,4 +27,9 @@ public class CategoryService {
          CategoryDB categoryDB = new CategoryDB();
          categoryDB.update(category);
      }
+      public Category getCategory(String name) throws Exception {
+           CategoryDB categoryDB = new CategoryDB();
+           Category category = categoryDB.getCategory(name);
+           return category;
+      }
 }

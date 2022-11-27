@@ -14,35 +14,20 @@
     </head>
     <body>
         <h1>Login</h1>
-         <c:if test="${action eq null}">
-        <form method="post" action="home">
+          
+         
+            
+        <form method="post" action="login">
             Username:<input type="text" name="email" value=${name} ><br>
             Password:<input type="password" name="password" value=${password}><br>
             <a href="<c:url value='login?action=create' />">Create an account </a>
-<!--            <a href="home?create">Create an account</a>-->
 
             <p>${msg}</p> 
               <input type="hidden" name="action" value="login" >
             <input type="submit" value="log in" >
         </form>
-              </c:if>
-        <c:if test="${action ne null}">
-          <h2>Create your account</h2>
-            <form  action="" method = "post">
-                Email: <input type="text" name="email"  required ><br>
-                 Address: <input type="text" name="address"  required ><br>
-                First Name: <input type="text" name="firstName"  required><br>
-                Last Name: <input type="text" name="lastName"  required><br>
-                Password: <input type="text" name="password"  required><br>
-                
-                <input type="hidden" name="action" value="add" >
-                <input type="submit" value="Add user">
-
-            </form>
-            
-            
-            
-        </c:if>
-
+             
+        
+       
     </body>
 </html>

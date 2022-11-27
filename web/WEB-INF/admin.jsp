@@ -29,6 +29,10 @@
                      <input type="hidden" name="action" value="viewAllCategory" >
                 <input type="submit" value="Categories"> 
                  </form>
+        <form action="admin" method="post">
+                     <input type="hidden" name="action" value="addCategory" >
+                <input type="submit" value="Add Category"> 
+                 </form>
         <c:choose>
             <c:when test="${action == 'view'}">
         
@@ -136,6 +140,7 @@
                                        </select>      
                 status: Status:<select name="status">
                     <c:choose>
+                        
                         <c:when test="${selectedUser.isActive()== true}">
                             <option>Active</option>
                                 <option>In-active</option>
@@ -235,8 +240,7 @@ check if it is empty or not
             <form  action="" method = "post">
              
                Category Name: <input type="text" name="categoryName" value=${selectedCategory.getCategoryId()}><br>
-               Add new Name: <input type="text" name="newCategory"><br><!--
-check if it is empty or not -->
+
                 <br>
                 <input type="hidden" name="action" value="edit" >
                 <input type="submit" value="update">
@@ -245,6 +249,15 @@ check if it is empty or not -->
 
             </form >
                        </c:when>
+           
+                            <c:when test="${action == 'addCategory'}">
+                                <form  action="" method = "post">
+                                Add new Name: <input type="text" name="newCategory"><br>
+                                <input type="hidden" name="action" value="AddCategory" >
+                <input type="submit" value="add">
+                </form>
+                            </c:when>
+                       
         </c:choose> 
     </body>
 </html>

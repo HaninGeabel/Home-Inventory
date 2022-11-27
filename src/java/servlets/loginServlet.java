@@ -33,6 +33,16 @@ public class loginServlet extends HttpServlet {
         if (action == null){
              session.invalidate();
         }
+        if (action!= null && action.equals("back")){
+            action = "create"; 
+            request.setAttribute("action", action);
+             response.sendRedirect("/");
+             return;
+        }
+        if (action != null && action.equals("create")){
+           getServletContext().getRequestDispatcher("/WEB-INF/createAccount.jsp")
+                .forward(request, response); 
+        }
        
       
 
@@ -46,22 +56,74 @@ public class loginServlet extends HttpServlet {
             throws ServletException, IOException {
         String msg; 
           HttpSession session = request.getSession();
-          
-           UserService user_service = new UserService();
-        RoleService user_role = new RoleService();
+          String action = request.getParameter("action");
+          request.setAttribute("action", action);
+          session.setAttribute("action", action);
+          RoleService user_role = new RoleService();
+           User user = null;
+            UserService user_service = new UserService();
+        
          List<User> users;
-         User user = null;
+     
+          if (action.equals("login")){
+          
+        //validate if user exist and if yes,check if it is manager or user  
+        
+        String email = request.getParameter("email");
+         session.setAttribute("email", email);
+        String password = request.getParameter("password");
+        
+//        List<User> users = null;
+         List <Role> roles = null; 
+//         int id = 0;
+        try{
+         user = user_service.getUser(email); 
+         session.setAttribute("user", user);
+          roles = user_role.getAll(); 
+        } catch (Exception ex) {
+                Logger.getLogger(loginServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        if (user!= null && user.getPassword().equals(password)){
+            if (user.isActive() == true){
+                session.setAttribute("roles", roles);
+             int userRole = user.getRole().getRoleId();
+             if (userRole == 1){
+                 response.sendRedirect("admin");
+                 return; 
+
+             }if (userRole == 2 ){
+                 
+        
+        response.sendRedirect("home");
+        return; 
+            }
+           
+    
+    }if (user.isActive() == false){
+         msg = "Your account has deactivated"; 
+        request.setAttribute("msg", msg);
+         session.invalidate();
+           getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response); 
+    }
+        }   else{
+             msg = "Wrong password or user name"; 
+            request.setAttribute("msg", msg);
+             session.invalidate();
+           getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response); 
+           return; 
+        }
+          }
+         if (action.equals("create")){
          
           String email = request.getParameter("email");
            request.setAttribute("email", email);
            String firstName = request.getParameter("firstName");
-              request.setAttribute("firstName", firstName);
+              session.setAttribute("firstName", firstName);
               String lastName = request.getParameter("lastName");
-              request.setAttribute("lastName", lastName);
+              session.setAttribute("lastName", lastName);
               String password = request.getParameter("password"); 
               request.setAttribute("password", password);
-              String address = request.getParameter("address");
-              request.setAttribute("address", address);
+              
               int roleId = 2; 
           try{
             user = user_service.getUser(email);  
@@ -87,10 +149,18 @@ public class loginServlet extends HttpServlet {
                 .forward(request, response);
               return; 
           }
-          
-      getServletContext().getRequestDispatcher("/WEB-INF/home.jsp")
+         msg = "You account has been created successfully ";
+          request.setAttribute("msg", msg);
+      getServletContext().getRequestDispatcher("/WEB-INF/login.jsp")
                     .forward(request,response);
     }
+         if (action.equals("accountCreated")){
+             action = ""; 
+             request.setAttribute("action",action);
+             getServletContext().getRequestDispatcher("/WEB-INF/login.jsp")
+                    .forward(request,response);
+             
+         }
 
-  
+    }
 }

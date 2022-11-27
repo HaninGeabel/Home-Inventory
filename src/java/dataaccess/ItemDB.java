@@ -27,7 +27,7 @@ public class ItemDB {
         Connection con = cp.getConnection();
         PreparedStatement ps = null;
         ResultSet result = null;
-        String sql = "SELECT item_id,category, item_name, price, owner FROM item  WHERE  category = category_id; ";
+        String sql = "SELECT item_id,category, item_name, price, owner FROM item,category  WHERE  category = category_id; ";
 
 try {
             ps = con.prepareStatement(sql);
@@ -41,7 +41,7 @@ try {
                 
                Category category = categorydb.getCategory(id);
                 User user = userdb.getUser(owner);
-                Item item = new Item(id,category, item_name, price, user);
+                Item item = new Item(category, item_name, price, user);
                 items.add(item);
             }
         } finally {
@@ -72,7 +72,7 @@ try {
                 String owner = result.getString(5);
                Category category = categorydb.getCategory(id);
                 User user = userdb.getUser(owner);
-                item = new Item(id,category, item_name, price, user);   
+                item = new Item(category, item_name, price, user);   
         }
      } 
         finally {
@@ -94,7 +94,7 @@ try {
             ps.setInt(2,item.getCategory().getCategoryId());
             ps.setString(3,item.getItemName()); 
             ps.setDouble(4,item.getPrice()); 
-             ps.setString(3,item.getUser().getEmail()); 
+             ps.setString(5,item.getUser().getEmail()); 
             ps.executeUpdate(); 
         }finally {
              DBUtil.closePreparedStatement(ps);

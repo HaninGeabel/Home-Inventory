@@ -66,6 +66,32 @@ public class CategoryDB {
         } 
         return category; 
 }
+ public Category getCategory(String name) throws Exception {
+         Category category = null ; 
+         ConnectionPool cp = ConnectionPool.getInstance();
+        Connection con = cp.getConnection();
+        PreparedStatement ps = null;
+        ResultSet result = null;
+        String sql = "SELECT category_id, category_name FROM  Category  WHERE  category_name =?; ";
+        try {
+             ps = con.prepareStatement(sql);
+             ps.setString(1, name);
+            result = ps.executeQuery();
+            if (result.next()) {
+                int id = result.getInt(1);
+                 category = new Category(id,name);
+
+                 
+                
+        }
+     } 
+        finally {
+            DBUtil.closeResultSet(result);
+            DBUtil.closePreparedStatement(ps);
+            cp.freeConnection(con);
+        } 
+        return category; 
+}
   public void insert(String category) throws Exception{
         ConnectionPool cp = ConnectionPool.getInstance();
         Connection con = cp.getConnection();

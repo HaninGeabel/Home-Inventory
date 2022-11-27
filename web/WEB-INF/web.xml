@@ -10,7 +10,7 @@
     </filter-mapping>
     <filter-mapping>
         <filter-name>Authentification</filter-name>
-        <servlet-name>adminServlet</servlet-name>
+        <servlet-name>homeServlet</servlet-name>
     </filter-mapping>
     <servlet>
         <servlet-name>loginServlet</servlet-name>
@@ -24,6 +24,10 @@
         <servlet-name>adminServlet</servlet-name>
         <servlet-class>servlets.adminServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ErrorServlet</servlet-name>
+        <servlet-class>servlets.ErrorServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>loginServlet</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -36,6 +40,10 @@
         <servlet-name>adminServlet</servlet-name>
         <url-pattern>/admin</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ErrorServlet</servlet-name>
+        <url-pattern>/Error</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
@@ -44,4 +52,8 @@
     <welcome-file-list>
         <welcome-file>login</welcome-file>
     </welcome-file-list>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/WEB-INF/errorPage.jsp</location>
+    </error-page>
 </web-app>

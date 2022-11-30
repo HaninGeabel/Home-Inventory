@@ -16,7 +16,7 @@
          <h1>Home Page</h1>
         <h4>Hello ${email} </h4>
         <p>${user.firstName}
-           ${user.lastName}
+            ${user.lastName}<br>
            ${msg}
                     </p>
                     <p>${userUpdated.firstName}

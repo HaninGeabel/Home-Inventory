@@ -15,7 +15,7 @@
     <body>
         <h1>Inventory Page</h1>
         <h4>Hello ${user.firstName}
-            ${user.lastName} </h4><br>
+            ${user.lastName} </h4><br><br>
            ${msg}
         <form action="home" method="post">
              <input type="hidden" name="action" value="back" >

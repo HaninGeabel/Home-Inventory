@@ -76,7 +76,11 @@
                                     <c:param name="action" value="edit"/>
                                     <c:param name="userEmail" value="${user.email}"/>
                                     </c:url>"> Edit </a> </td>
-                        <td> <a href="<c:url value='admin?action=delete&amp;userEmail=${user.email}' />">Delete </a> </td>
+                        
+                        <td> <a href="<c:url value="admin?action=delete">
+                                    <c:param name="action" value="delete"/>
+                                    <c:param name="userEmail" value="${user.email}"/>
+                                    </c:url>"> Delete </a> </td>
                     </tr>
 
                 </c:forEach>   
